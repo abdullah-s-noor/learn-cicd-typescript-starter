@@ -1,6 +1,6 @@
 # Learn CI/CD Starter
 
-![CI Status](https://github.com/abdullah-s-noor/learn-cicd-typescript-starter/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/abdullah-s-noor/learn-cicd-typescript-starter/actions/workflows/ci.yml/badge.svg)
 
 # learn-cicd-typescript-starter (Notely)
 
