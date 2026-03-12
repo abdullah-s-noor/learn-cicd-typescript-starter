@@ -41,7 +41,10 @@ if (db) {
 }
 
 v1Router.get("/healthz", handlerReadiness);
-
+function unused() {
+  // this function does nothing
+  // and is called nowhere
+}
 app.use("/v1", v1Router);
 
 app.listen(config.api.port, () => {
