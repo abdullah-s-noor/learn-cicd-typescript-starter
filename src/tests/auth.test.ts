@@ -7,7 +7,7 @@ describe("getAPIKey", () => {
       authorization: "ApiKey abc123",
     };
 
-    const result = getAPIKey(headers );
+    const result = getAPIKey(headers);
 
     expect(result).toBe("abc123");
   });
@@ -25,7 +25,7 @@ describe("getAPIKey", () => {
       authorization: "Bearer abc123",
     };
 
-    const result = getAPIKey(headers );
+    const result = getAPIKey(headers);
 
     expect(result).toBeNull();
   });
@@ -35,7 +35,7 @@ describe("getAPIKey", () => {
       authorization: "ApiKey",
     };
 
-    const result = getAPIKey(headers );
+    const result = getAPIKey(headers);
 
     expect(result).toBeNull();
   });
