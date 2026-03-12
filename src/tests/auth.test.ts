@@ -3,14 +3,14 @@ import { getAPIKey } from "../api/auth.js";
 
 describe("getAPIKey", () => {
   test("returns API key when header is valid", () => {
-  const headers = {
-    authorization: "ApiKey abc123",
-  };
+    const headers = {
+      authorization: "ApiKey abc123",
+    };
 
-  const result = getAPIKey(headers);
+    const result = getAPIKey(headers );
 
-  expect(result).toBe("wrong");
-});
+    expect(result).toBe("abc123");
+  });
 
   test("returns null if authorization header missing", () => {
     const headers = {};
