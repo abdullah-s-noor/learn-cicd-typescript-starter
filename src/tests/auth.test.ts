@@ -3,19 +3,19 @@ import { getAPIKey } from "../api/auth.js";
 
 describe("getAPIKey", () => {
   test("returns API key when header is valid", () => {
-    const headers = {
-      authorization: "ApiKey abc123",
-    };
+  const headers = {
+    authorization: "ApiKey abc123",
+  };
 
-    const result = getAPIKey(headers as any);
+  const result = getAPIKey(headers);
 
-    expect(result).toBe("abc123");
-  });
+  expect(result).toBe("wrong");
+});
 
   test("returns null if authorization header missing", () => {
     const headers = {};
 
-    const result = getAPIKey(headers as any);
+    const result = getAPIKey(headers);
 
     expect(result).toBeNull();
   });
@@ -25,7 +25,7 @@ describe("getAPIKey", () => {
       authorization: "Bearer abc123",
     };
 
-    const result = getAPIKey(headers as any);
+    const result = getAPIKey(headers );
 
     expect(result).toBeNull();
   });
@@ -35,7 +35,7 @@ describe("getAPIKey", () => {
       authorization: "ApiKey",
     };
 
-    const result = getAPIKey(headers as any);
+    const result = getAPIKey(headers );
 
     expect(result).toBeNull();
   });
