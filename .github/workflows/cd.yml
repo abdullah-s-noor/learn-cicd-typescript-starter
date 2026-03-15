@@ -48,10 +48,7 @@ jobs:
         run: |
           gcloud builds submit \
             --tag us-central1-docker.pkg.dev/notely-490307/notely-ar-repo/notely:latest \
-            --project notely-490307 \
-            --service-account=projects/notely-490307/serviceAccounts/github-actions@notely-490307.iam.gserviceaccount.com \
-            --gcs-log-dir=gs://notely-490307-cloudbuild-logs \
-            .
+            --project notely-490307
 
 
       - name: Run database migrations
