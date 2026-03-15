@@ -6,21 +6,22 @@ on:
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
-      - name: Checkout
+      - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -28,26 +29,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build app
+      - name: Build the app
         run: npm run build
 
-      - name: Run database migrations
-        run: npm run db:migrate
-
       - id: auth
-        name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: projects/621774486173/locations/global/workloadIdentityPools/github-pool/providers/github-actions-provider
           service_account: cloud-run-deployer@project-906d7388-8b4a-466e-a5b.iam.gserviceaccount.com
 
-      - name: Setup gcloud
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: project-906d7388-8b4a-466e-a5b
 
-      - name: Build and push Docker image
+      - name: Build and Push to Artifact Registry
         run: |
           gcloud builds submit \
-            --tag us-central1-docker.pkg.dev/project-906d7388-8b4a-466e-a5b/notely-ar-repo/notely:latest .
+            --tag us-central1-docker.pkg.dev/project-906d7388-8b4a-466e-a5b/notely-ar-repo/notely:latest \
+            .
 
+      - name: Run database migrations
+        run: npm run db:migrate
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy notely \
+            --image us-central1-docker.pkg.dev/project-906d7388-8b4a-466e-a5b/notely-ar-repo/notely:latest \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --project project-906d7388-8b4a-466e-a5b \
+            --max-instances=4
